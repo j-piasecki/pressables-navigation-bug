@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {Button, SafeAreaView} from 'react-native';
+import {Alert, Button, SafeAreaView} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator, TransitionPresets} from '@react-navigation/stack';
 
@@ -15,14 +15,12 @@ function HomeScreen({navigation}: any) {
 }
 
 function DetailsScreen() {
-  const [text, setText] = React.useState(1);
-
   return (
     <SafeAreaView style={{flex: 1}}>
       <Button
         title="Alert"
         onPress={() => {
-          setText(text + 1);
+          Alert.alert('Click');
         }}
       />
     </SafeAreaView>
