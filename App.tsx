@@ -1,63 +1,56 @@
 import * as React from 'react';
-import {Button, View, Text, TextInput} from 'react-native';
+import {Button, SafeAreaView} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {createStackNavigator, TransitionPresets} from '@react-navigation/stack';
 
-function HomeScreen({navigation}) {
+function HomeScreen({navigation}: any) {
   return (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-      <Text>Home Screen</Text>
-      <TextInput
-        placeholder="THE FIRST INPUT"
-        style={{backgroundColor: '#00FFFF', marginTop: 30, marginBottom: 30}}
-      />
-      <Button title="Press me" onPress={() => alert('Pressed!')} />
+    <SafeAreaView style={{flex: 1}}>
       <Button
         title="Go to Details"
         onPress={() => navigation.navigate('Details')}
       />
-    </View>
+    </SafeAreaView>
   );
 }
 
 function DetailsScreen() {
+  const [text, setText] = React.useState(1);
+
   return (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-      <Text>Details Screen</Text>
-      <TextInput
-        placeholder="THE SECOND INPUT"
-        style={{backgroundColor: '#00FFFF'}}
+    <SafeAreaView style={{flex: 1}}>
+      <Button
+        title="Alert"
+        onPress={() => {
+          setText(text + 1);
+        }}
       />
-    </View>
+    </SafeAreaView>
   );
 }
 
-const Stack = createNativeStackNavigator();
+const Stack = createStackNavigator();
 
 function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Home">
-        <Stack.Screen name="Home" component={HomeScreen} />
-        <Stack.Screen name="Details" component={DetailsScreen} />
+      <Stack.Navigator
+        initialRouteName="Home"
+        screenOptions={{headerShown: false}}>
+        <Stack.Screen
+          name="Home"
+          component={HomeScreen}
+          options={TransitionPresets.ScaleFromCenterAndroid}
+        />
+        <Stack.Screen
+          // options={{animationEnabled: false}}
+          options={TransitionPresets.ScaleFromCenterAndroid}
+          name="Details"
+          component={DetailsScreen}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
 }
-
-// Without navigation the button and the text input works:
-
-// function App() {
-//   return (
-//     <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-//       <Text>Home Screen</Text>
-//       <TextInput
-//         placeholder="THE FIRST INPUT"
-//         style={{backgroundColor: '#00FFFF', marginTop: 30, marginBottom: 30}}
-//       />
-//       <Button title="Go to Details" onPress={() => alert('Pressed!')} />
-//     </View>
-//   );
-// }
 
 export default App;
